@@ -16,6 +16,9 @@
 
             if (values[0] > 128)
             {
+                var temperature = -1*(256 - values[0]) + ~(values[1] >> 4)/16f;
+
+                return new TemperatureReading(temperature);
             }
             else
             {
