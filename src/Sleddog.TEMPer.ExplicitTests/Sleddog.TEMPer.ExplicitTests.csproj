@@ -64,7 +64,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\Sleddog.TEMPer\Sleddog.TEMPer.csproj">
+    <ProjectReference Include="..\Sleddog.TEMPer\Sleddog.TEMPer.csproj">
       <Project>{42EA7D20-2FCE-42C2-8BFA-C85E321CEFF0}</Project>
       <Name>Sleddog.TEMPer</Name>
     </ProjectReference>
