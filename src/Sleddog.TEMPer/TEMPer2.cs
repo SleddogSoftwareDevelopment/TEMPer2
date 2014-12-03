@@ -14,6 +14,16 @@
                 return TemperatureReading.Disconnected;
             }
 
+            if (values[0] > 128)
+            {
+            }
+            else
+            {
+                var temperature = values[0] + (values[1] >> 4)/16f;
+
+                return new TemperatureReading(temperature);
+            }
+
             return TemperatureReading.Failed;
         }
     }
