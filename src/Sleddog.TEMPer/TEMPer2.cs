@@ -12,11 +12,18 @@ namespace Sleddog.TEMPer
         private static readonly byte[] ReadTemperateureCommand = {0x00, 0x01, 0x80, 0x33, 0x01, 0x00, 0x00, 0x00, 0x00};
         private readonly IHidDevice device;
 
+        public IObservable<TemperatureReading> InternalSensor { get; set; }
+        public IObservable<TemperatureReading> ExternalSensor { get; set; }
+
         public TEMPer2()
         {
             var hidDevices = new HidEnumerator().Enumerate(VendorId, ProductId);
 
             device = hidDevices.Single(hd => hd.Capabilities.UsagePage == -256);
+        }
+
+        public void ReadTemperatures()
+        {
         }
 
         private TemperatureReading ConvertToTempearture(byte[] values)
