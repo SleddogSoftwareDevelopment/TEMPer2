@@ -13,6 +13,7 @@ namespace Sleddog.TEMPer
 
         private static readonly byte[] ReadTemperateureCommand = {0x00, 0x01, 0x80, 0x33, 0x01, 0x00, 0x00, 0x00, 0x00};
         private readonly IHidDevice device;
+        private IDisposable readHandle;
 
         public ISubject<TemperatureReading> InternalSensor { get; private set; }
         public ISubject<TemperatureReading> ExternalSensor { get; private set; }
@@ -29,7 +30,7 @@ namespace Sleddog.TEMPer
 
         public void ReadTemperatures()
         {
-            Observable.Interval(TimeSpan.FromSeconds(1))
+            readHandle = Observable.Interval(TimeSpan.FromSeconds(1))
                 .Subscribe(_ =>
                 {
                     device.Write(ReadTemperateureCommand);
@@ -75,6 +76,11 @@ namespace Sleddog.TEMPer
 
         public void Dispose()
         {
+            if (readHandle != null)
+            {
+                readHandle.Dispose();
+            }
+
             if (device != null)
             {
                 if (device.IsOpen)

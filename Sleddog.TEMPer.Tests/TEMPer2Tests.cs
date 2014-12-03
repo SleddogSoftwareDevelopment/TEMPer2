@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reactive.Linq;
+using System.Threading;
 using Xunit;
 
 namespace Sleddog.TEMPer.Tests
@@ -9,21 +10,20 @@ namespace Sleddog.TEMPer.Tests
         [Fact]
         public void Read()
         {
-            var temper = new TEMPer2();
+            using (var temper = new TEMPer2())
+            {
+                temper.InternalSensor
+                    .Zip(temper.ExternalSensor, (i, e) => new {Internal = i, External = e})
+                    .Subscribe(_ =>
+                    {
+                        Console.WriteLine("Int: {0}", _.Internal);
+                        Console.WriteLine("Ext: {0}", _.External);
+                    });
 
-            temper.InternalSensor
-                .Zip(temper.ExternalSensor, (i, e) => new {Internal = i, External = e})
-                .Subscribe(_ =>
-                {
-                    Console.WriteLine("Int: {0}", _.Internal);
-                    Console.WriteLine("Ext: {0}", _.External);
-                });
+                temper.ReadTemperatures();
 
-            temper.ReadTemperatures();
-
-            Observable.Interval(TimeSpan.FromSeconds(1))
-                .TakeWhile(x => x < 5)
-                .Wait();
+                Thread.Sleep(TimeSpan.FromSeconds(2));
+            }
         }
     }
 }
