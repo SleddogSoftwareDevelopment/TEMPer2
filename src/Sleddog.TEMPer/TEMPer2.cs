@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using HidLibrary;
 
 namespace Sleddog.TEMPer
@@ -12,18 +14,37 @@ namespace Sleddog.TEMPer
         private static readonly byte[] ReadTemperateureCommand = {0x00, 0x01, 0x80, 0x33, 0x01, 0x00, 0x00, 0x00, 0x00};
         private readonly IHidDevice device;
 
-        public IObservable<TemperatureReading> InternalSensor { get; set; }
-        public IObservable<TemperatureReading> ExternalSensor { get; set; }
+        public ISubject<TemperatureReading> InternalSensor { get; private set; }
+        public ISubject<TemperatureReading> ExternalSensor { get; private set; }
 
         public TEMPer2()
         {
             var hidDevices = new HidEnumerator().Enumerate(VendorId, ProductId);
 
             device = hidDevices.Single(hd => hd.Capabilities.UsagePage == -256);
+
+            InternalSensor = new Subject<TemperatureReading>();
+            ExternalSensor = new Subject<TemperatureReading>();
         }
 
         public void ReadTemperatures()
         {
+            Observable.Interval(TimeSpan.FromSeconds(1))
+                .Subscribe(_ =>
+                {
+                    device.Write(ReadTemperateureCommand);
+
+                    var data = device.Read();
+
+                    if (data.Status == HidDeviceData.ReadStatus.Success)
+                    {
+                        var internalTemperature = new[] {data.Data[3], data.Data[4]};
+                        var externalTemperature = new[] {data.Data[5], data.Data[6]};
+
+                        InternalSensor.OnNext(ConvertToTempearture(internalTemperature));
+                        ExternalSensor.OnNext(ConvertToTempearture(externalTemperature));
+                    }
+                });
         }
 
         private TemperatureReading ConvertToTempearture(byte[] values)

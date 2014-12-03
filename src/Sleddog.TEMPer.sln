@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sleddog.TEMPer", "Sleddog.TEMPer\Sleddog.TEMPer.csproj", "{42EA7D20-2FCE-42C2-8BFA-C85E321CEFF0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sleddog.TEMPer.Tests", "..\Sleddog.TEMPer.Tests\Sleddog.TEMPer.Tests.csproj", "{FEFAA9C9-04BB-4982-8076-8C44DB442E0F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{42EA7D20-2FCE-42C2-8BFA-C85E321CEFF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{42EA7D20-2FCE-42C2-8BFA-C85E321CEFF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{42EA7D20-2FCE-42C2-8BFA-C85E321CEFF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEFAA9C9-04BB-4982-8076-8C44DB442E0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEFAA9C9-04BB-4982-8076-8C44DB442E0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEFAA9C9-04BB-4982-8076-8C44DB442E0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEFAA9C9-04BB-4982-8076-8C44DB442E0F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
