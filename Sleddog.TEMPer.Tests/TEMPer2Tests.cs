@@ -11,7 +11,13 @@ namespace Sleddog.TEMPer.Tests
         {
             var temper = new TEMPer2();
 
-            temper.InternalSensor.Subscribe(Console.WriteLine);
+            temper.InternalSensor
+                .Zip(temper.ExternalSensor, (i, e) => new {Internal = i, External = e})
+                .Subscribe(_ =>
+                {
+                    Console.WriteLine("Int: {0}", _.Internal);
+                    Console.WriteLine("Ext: {0}", _.External);
+                });
 
             temper.ReadTemperatures();
 
