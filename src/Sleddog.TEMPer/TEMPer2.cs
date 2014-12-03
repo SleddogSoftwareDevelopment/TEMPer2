@@ -1,7 +1,19 @@
-﻿namespace Sleddog.TEMPer
+﻿using System;
+
+namespace Sleddog.TEMPer
 {
-    public class TEMPer2
+    public class TEMPer2:IDisposable
     {
+        private static readonly int VendorId = 0x0C45;
+        private static readonly int ProductId = 0x7401;
+
+        private static readonly byte[] ReadTemperateureCommand = {0x00, 0x01, 0x80, 0x33, 0x01, 0x00, 0x00, 0x00, 0x00};
+
+        public TEMPer2()
+        {
+            
+        }
+
         private TemperatureReading ConvertToTempearture(byte[] values)
         {
             if (values.Length != 2)
@@ -26,8 +38,11 @@
 
                 return new TemperatureReading(temperature);
             }
+        }
 
-            return TemperatureReading.Failed;
+        public void Dispose()
+        {
+            throw new NotImplementedException();
         }
     }
 }
